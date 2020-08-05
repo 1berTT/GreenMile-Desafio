@@ -1,7 +1,7 @@
 <h1 align="left"> Realizando assertivas em eventos de Long Click com Cypress </h1>
 
 <p align="justify"> 
-  Este repositório contém a resolução do desafio proposto pela empresa GrennMile, para a vaga de estagiário. O objetivo do desafio é examinar a página que se encontra neste <a href="https://codepen.io/choskim/pen/RLYebL"> Link. </a> A aplicação é composta basicamente por um quadrado verde, e é nele em que o problema se encontra. A proposta do desafio é clicar no quadrado por ao menos 500 milisegundos, fazendo com suas dimensões aumentem. Para a realização do testes, foi usado o Framework de automação de testes Cypress, que será responsável por verificar se o quadrado teve suas dimensões realmente alteradas.
+  Este repositório contém a resolução do desafio proposto pela empresa GrennMile, como parte do processo seletivo para a vaga de estagiário. O objetivo do desafio é examinar a página que se encontra neste <a href="https://codepen.io/choskim/pen/RLYebL"> Link. </a> A aplicação é composta basicamente por um quadrado verde, e é nele em que o problema se encontra. A proposta do desafio é clicar no quadrado por ao menos 500 milisegundos, fazendo com suas dimensões aumentem. Para a realização do testes, foi usado o Framework de automação de testes Cypress, que será responsável por verificar se o quadrado teve suas dimensões realmente alteradas.
 </p>
 
 <h2 align="left"> Preparação do ambiente </h2>
@@ -31,3 +31,69 @@
 </p>
 
 ` npm run cypress:open `
+
+<h2 align="left"> Dificuldades encontradas </h2>
+
+<p>
+  O evento de Long Click da aplicação é feito através do uso da biblioteca hammer.js. O problema é que a biblioteca não consegue reconhecer a ação de clique do Cypress, por não se tratar de um evento nativo, fazendo com que o evento de clique não seja acionado, e que as dimensões do quadrado não sofram alterações. Para tratar esse problema, optei por retirar a biblioteca hammer.js, e tratar o evento de Long Click usando apenas JavaScript. Com isso, Os eventos do Cypress passam a ser reconhecidos pela aplicação, tornando possível a validação do evento de clique.
+</p>
+
+<h2 align="left"> Compreendendo o arquivo de testes </h2>
+
+<p>
+  Os primeiros trechos do código correspondem a etapa de visitar a plicação (que ocorre no before), e a parte de recarregamento da página, que ocorrem antes do início de um bloco de testes (beforeEach é responsável por executar essa ação).
+</p>
+
+```
+before(() => {
+    cy.visit('./src/index.html'); // visita a pagina que será testada
+})
+beforeEach(() => {
+    cy.reload(); // recarrega a pagina a cada execução de um novo teste
+})
+```
+
+<p>
+  O primeiro bloco de teste, faz primeiramente a verificação inicial acerca das dimensões do quadrado (que inicialmente é 90px por 90px). Após isso ocorre o evento de clique, para que as dimensões do quadrado mudem. Por fim, ocorre a validação das dimensões do quadrado, que devem ter sido alteradas para 225px por 225px.
+</p>
+
+```
+it('Primeira assertiva, que testa se o quadrado vai de 90px a 225px', () => { // Teste que verifica a primeira questão do desafio
+    cy.get('#quadrado').should('have.css', 'width', '90px'); // verifica se o elemento .sqare possui a classe css width = 90px
+    cy.get('.square').should('have.css', 'height', '90px'); // verifica se o elemento .square possui a classe css height = 90px
+    // É possivel selecionar o elemento tanto pela sua classe, quanto pelo seu id (#quadrado / .square).
+
+    cy.get('.square').trigger("mousedown", {which: 1}); // realizando o evento de long click (mousedown) com o elemento .square
+    cy.wait(1000); // espera 1 segundo para que a execução do teste continue (Para que seja possível ver o quadrado mundando de tamanho de uma maneira mais normal)
+
+    cy.get('#quadrado').should('have.css', 'width', '225px');
+    cy.get('.square').should('have.css', 'height', '225px');
+})
+```
+
+<p>
+  Já o segundo e ultimo bloco de teste, tem como objetivo realizar a validação de quando o quadrado tem o seu tamanho alterado de 225px por 225px para 90px por 90px
+</p>
+
+```
+it('Segunda assertiva, que testa se o quadrado vai de 225px a 90px', () => { //Teste que verifica a segunda questão do desafio
+    cy.get('.square').trigger("mousedown", {which: 1});
+    cy.wait(1000);
+
+    cy.get('#quadrado').should('have.css', 'width', '225px');
+    cy.get('.square').should('have.css', 'height', '225px');
+
+    cy.get('.square').trigger("mousedown", {which: 1});
+    cy.wait(1000);
+
+    cy.get('#quadrado').should('have.css', 'width', '90px');
+    cy.get('.square').should('have.css', 'height', '90px');
+})
+```
+
+<p>
+  Após a execução dos blocos de teste, você deverá obter o seguinte resultado:
+</p>
+
+
+
