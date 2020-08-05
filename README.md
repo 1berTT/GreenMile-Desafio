@@ -20,14 +20,14 @@
 
 <h2 align="left"> Instalando o Cypress no seu projeto </h2>
 <p>
-  Após fazer o download do projeto, é necessario fazer o download do Cypress, para que vc possa executar os seus testes. Para instala-lo, basta abrir o terminal novamente e inserir o seguinte comando:
+  Após fazer o download do projeto, é necessario fazer o download do Cypress, para que vc possa executar os seus testes. Para instala-lo, basta abrir o terminal novamente e inserir o seguinte comando (Recomendo que usem exatamente este comando, devido ao fato de o projeto ter sido implementado nesta versão específica do Cypress):
 </p>
 
 ` npm install cypress@3.6.0 `
 
 <h2 align="left"> Executando o projeto </h2>
 <p>
-  Após a realização das etapas anteriores, você jó pode dar inicio a execução dos testes. Para isso, basta abrir o terminal na pasta do seu projeto e inserir o seguinte comando:
+  Após a realização das etapas anteriores, você já pode dar inicio a execução dos testes. Para isso, basta abrir o terminal na pasta do seu projeto e inserir o seguinte comando:
 </p>
 
 ` npm run cypress:open `
@@ -72,6 +72,12 @@ it('Primeira assertiva, que testa se o quadrado vai de 90px a 225px', () => { //
 ```
 
 <p>
+  Após a execução do primeiro teste, você deverá obter o seguinte resultado:
+</p>
+
+![alt text](https://github.com/1berTT/GreenMile-Desafio/blob/master/resultado1.PNG)
+
+<p>
   Já o segundo e ultimo bloco de teste, tem como objetivo realizar a validação de quando o quadrado tem o seu tamanho alterado de 225px por 225px para 90px por 90px
 </p>
 
@@ -92,8 +98,14 @@ it('Segunda assertiva, que testa se o quadrado vai de 225px a 90px', () => { //T
 ```
 
 <p>
-  Após a execução dos blocos de teste, você deverá obter o seguinte resultado:
+  Após a execução do ultimo bloco de teste, você deverá obter o seguinte resultado:
 </p>
 
+![alt text](https://github.com/1berTT/GreenMile-Desafio/blob/master/resultado.PNG)
 
-
+<h2 align="left"> Autor do projeto </h2>
+<p>
+  <b>
+    <a href="https://www.github.com/1berTT"> Humberto Cavalcante Damasceno. </a>
+  </b>
+</p>
